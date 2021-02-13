@@ -4,6 +4,8 @@ import { BrowserRouter, Route } from "react-router-dom";
 import "@ionic/core/css/ionic.bundle.css";
 import './App.css';
 import Home from "./components/Home";
+import Signup from "./components/Signup"
+import Login from "./components/Login"
 import axios from 'axios';
 
 // class App extends Component {
@@ -32,6 +34,8 @@ function App() {
     <BrowserRouter>
       <IonApp>
         <Route exact path="/" component={Home} />
+        <Route exact path="/signup" component={Signup}/>
+        <Route exact path="/login" component={Login}/>
     </IonApp>
     </BrowserRouter>
   );
