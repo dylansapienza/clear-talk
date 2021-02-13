@@ -5,38 +5,51 @@ const saySomething = (req, res, next) => {
         body: 'Hello from the server!'
     });
 };
-
 module.exports.saySomething = saySomething;
 
 const accountCreation = (req, res, next) => {
     body = req.body;
-    console.log(body);
-
-    if(!body){
-        return res.status(400).json({
-            success: false,
-            error: 'You must provide all info'
-        })
-    }
-
     const user = new User(body)
-
-    if (!user) {
-        return res.status(400).json({ success: false, error: err })
-
-    }
-
     user.save()
     .then(() => {
         return res.send('/login');
     })
     .catch(error => {
-        return res.status(400).json({
-            error,
-            message: 'User not created!',
-        })
+        return res.status(400);
     })
 
 }
-
 module.exports.accountCreation = accountCreation;
+
+const loginCred = (req, res, next) => {
+    User.findOne({ username: req.body.username })
+    .exec()
+    .then(async (doc) => {
+      if (doc === null) {
+        res.send("Invalid Username/Password");
+        return;
+      }
+      console.log(doc);
+      const query_password = doc.password;
+
+      if(req.body.password == query_password){
+          isLoggedIn = true
+      }else{
+          isLoggedIn = false
+      }
+      console.log(isLoggedIn);
+      if (isLoggedIn) {
+        //Valid!
+        //Respond with Login Session w/ Username
+        //Redirect to homepage
+        //Using Document.id as login cookie, should probably change this to something more secure
+        res.send(doc.id);
+      } else {
+        //Invalid
+        res.send("Invalid Username/Password");
+        //try again
+      }
+    });
+}
+module.exports.loginCred = loginCred;
+
