@@ -28,13 +28,13 @@ function postInfo(username, email, password) {
     password: password,
   };
   axios
-    .post("/accountcreation", p_info, {
+    .post("/account-creation", p_info, {
       headers: {
         "Content-Type": "application/json",
       },
     })
     .then((response) => {
-      window.location.replace(response.data);
+        window.location.replace(response.data);
     })
     .catch((error) => {
       console.log(error);
