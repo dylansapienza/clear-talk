@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
+const db = require('./db')
 
 // Create a new express application named 'app'
 const app = express();
@@ -25,6 +26,7 @@ app.use(bodyParser.urlencoded({
 // Configure the CORs middleware
 app.use(cors());
 
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 // Require Route
 const api = require('./routes/routes');
 // Configure app to use route
