@@ -46,7 +46,7 @@ function Home(props) {
         <IonCard>
           <IonCardHeader>
             <IonCardTitle class="ion-text-center"><div class="typewriter">
-                <h1>Clear Talk</h1>
+                <h1>Clear Talk: Personal Chats</h1>
             </div></IonCardTitle>
           </IonCardHeader>
 
