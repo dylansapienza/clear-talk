@@ -6,29 +6,8 @@ import './App.css';
 import Home from "./components/Home";
 import Signup from "./components/Signup"
 import Login from "./components/Login"
-import axios from 'axios';
+import Dashboard from "./components/Dashboard"
 
-// class App extends Component {
-//   state = {
-//     response: {}
-//   };
-  
-//   componentDidMount() {
-//     axios.get('/api/v1/say-something').then((res) => {
-//       const response = res.data;
-//       this.setState({response});
-//     });
-//   }
-
-//   render() {
-//     return (
-//       <div className="App">
-//         <h1>Hello from the frontend!</h1>
-//         <h1>{this.state.response.body}</h1>
-//       </div>
-//     );
-//   }
-// }
 function App() {
   return (
     <BrowserRouter>
@@ -36,6 +15,7 @@ function App() {
         <Route exact path="/" component={Home} />
         <Route exact path="/signup" component={Signup}/>
         <Route exact path="/login" component={Login}/>
+        <Route exact path="/dashboard" component={Dashboard}/>
     </IonApp>
     </BrowserRouter>
   );
