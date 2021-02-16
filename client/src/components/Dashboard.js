@@ -93,7 +93,8 @@ function Dashboard() {
 
   function createPlaylist(friend) {
     var token = Cookies.get("key");
-    var data = { token: token, friend: friend};
+    var username = Cookies.get("username")
+    var data = { token: token, friend: friend, username: username};
     console.log(data);
     setLoading(true);
     axios

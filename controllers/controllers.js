@@ -43,7 +43,7 @@ const loginCred = (req, res, next) => {
         //Respond with Login Session w/ Username
         //Redirect to homepage
         //Using Document.id as login cookie, should probably change this to something more secure
-        res.send(doc.id);
+        res.send(doc);
       } else {
         //Invalid
         res.send("Invalid Username/Password");
@@ -64,9 +64,7 @@ const getChats = (req, res) => {
 }
 module.exports.getChats = getChats;
 
-const createChat = async (req, res) => {
-
-  const UserDoc = await User.findById(req.body.user_token);
+const createChat = (req, res) => {
 
   User.findOneAndUpdate(
     {_id: req.body.token},
@@ -81,17 +79,18 @@ const createChat = async (req, res) => {
     }})
     .exec();
 
-  User.findOneAndUpdate({username: req.body.friend},
-    {$push:{
-      chats:{
-        friend: UserDoc.username,
-          messages:{
-            sender: 0,
-            text: "Chat Intialized",
-          },
-        },
-    }})
-    .exec();
+    User.findOneAndUpdate({username: req.body.friend},
+      {$push:{
+        chats:{
+          friend: req.body.username,
+            messages:{
+              sender: 0,
+              text: "Chat Intialized",
+            },
+           },
+        }})
+        .exec();
+  
 
 
 

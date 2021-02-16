@@ -50,7 +50,9 @@ function Login(props) {
           return;
         }
         Cookies.set("key", "");
-        Cookies.set("key", response.data);
+        console.log(response.data)
+        Cookies.set("key", response.data._id);
+        Cookies.set("username", response.data.username)
         window.location.replace("/dashboard"); //Make this a href link that works
       })
       .catch((error) => {
