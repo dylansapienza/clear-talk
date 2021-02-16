@@ -8,4 +8,9 @@ router.post('/account-creation', controllers.accountCreation);
 
 router.post('/logincred', controllers.loginCred);
 
+router.post('/api/getChats', controllers.getChats);
+
+router.post('/api/createChat', controllers.createChat);
+
+
 module.exports = router;

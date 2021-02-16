@@ -53,3 +53,30 @@ const loginCred = (req, res, next) => {
 }
 module.exports.loginCred = loginCred;
 
+const getChats = (req, res) => {
+  User.findById(req.body.user_token)
+    .exec()
+    .then(async (doc) =>{
+      console.log(doc)
+      res.send(doc.chats)
+    });
+  
+}
+module.exports.getChats = getChats;
+
+const createChat = (req, res) => {
+  User.findOneAndUpdate(
+    {_id: req.body.token},
+    {$push:{
+      chats:{
+        friend: req.body.friend,
+        messages:{
+          sender: 1,
+          text: "Chat Intialized",
+        },
+      },
+    }})
+    .exec();
+    
+}
+module.exports.createChat = createChat;
