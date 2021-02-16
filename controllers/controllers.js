@@ -64,7 +64,10 @@ const getChats = (req, res) => {
 }
 module.exports.getChats = getChats;
 
-const createChat = (req, res) => {
+const createChat = async (req, res) => {
+
+  const UserDoc = await User.findById(req.body.user_token);
+
   User.findOneAndUpdate(
     {_id: req.body.token},
     {$push:{
@@ -77,6 +80,20 @@ const createChat = (req, res) => {
       },
     }})
     .exec();
-    
+
+  User.findOneAndUpdate({username: req.body.friend},
+    {$push:{
+      chats:{
+        friend: UserDoc.username,
+          messages:{
+            sender: 0,
+            text: "Chat Intialized",
+          },
+        },
+    }})
+    .exec();
+
+
+
 }
 module.exports.createChat = createChat;
