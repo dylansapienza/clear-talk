@@ -50,16 +50,16 @@ import {
 } from "@ionic/react";
 import "@ionic/core/css/ionic.bundle.css";
 import NavMenu from "./NavMenu";
+import ChatItem from "./ChatItem";
 
 function Dashboard() {
 
   const [showModal, setShowModal] = useState(false);
-  const [playlist_name, setPlaylist_Name] = useState();
-  const [playlist_description, setPlaylist_Description] = useState();
+  const [friend_username, setFriendUsername] = useState();
   const [isLoading, setLoading] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [isWaiting, setWaiting] = useState(true);
-  const [MyPlaylists, setPlaylists] = useState([]);
+  const [MyChats, setChats] = useState([]);
   const [FriendPlaylists, setFriendPlaylists] = useState([]);
 
   function checkLogin() {
@@ -80,10 +80,13 @@ function Dashboard() {
 //        timeout: 1000 * 10,
       })
       .then((response) => {
-        console.log(response);
+        //console.log(response);
+        console.log("CHAT INFO:")
+        console.log(response.data)
+        setChats(response.data);
+        setWaiting(false);
         //setPlaylists(response.data);
         //console.log(MyPlaylist);
-        //setWaiting(false);
       })
       .catch((error) => {
         console.log(error);
@@ -91,7 +94,7 @@ function Dashboard() {
       });
   }
 
-  function createPlaylist(friend) {
+  function createChat(friend) {
     var token = Cookies.get("key");
     var username = Cookies.get("username")
     var data = { token: token, friend: friend, username: username};
@@ -134,22 +137,14 @@ function Dashboard() {
         <IonModal isOpen={showModal} cssClass="my-custom-class">
           <IonCard>
             <IonCardContent>
-              <IonCardTitle>Create A Playlist</IonCardTitle>
+              <IonCardTitle>Create A Chat</IonCardTitle>
               <IonList inset="true">
                 <IonItem>
                   <IonInput
-                    value={playlist_name}
-                    placeholder="Playlist Name"
+                    value={friend_username}
+                    placeholder="Username"
                     required="true"
-                    onIonChange={(e) => setPlaylist_Name(e.detail.value)}
-                  ></IonInput>
-                </IonItem>
-                <IonItem>
-                  <IonInput
-                    value={playlist_description}
-                    required="true"
-                    placeholder="Description"
-                    onIonChange={(e) => setPlaylist_Description(e.detail.value)}
+                    onIonChange={(e) => setFriendUsername(e.detail.value)}
                   ></IonInput>
                 </IonItem>
               </IonList>
@@ -163,10 +158,10 @@ function Dashboard() {
                   color="success"
                   expand="block"
                   onClick={() =>
-                    createPlaylist(playlist_name, playlist_description)
+                    createChat(setFriendUsername)
                   }
                 >
-                  Create Playlist
+                  Create Chat
                 </IonButton>
               )}
             </IonCardContent>
@@ -181,23 +176,17 @@ function Dashboard() {
           {isWaiting ? (
             <IonCard>
               <IonCardContent>
-                <IonHeader>Loading Playlists...</IonHeader>
+                <IonHeader>Loading Chats...</IonHeader>
                 <IonProgressBar type="indeterminate"></IonProgressBar>
               </IonCardContent>
             </IonCard>
           ) : (
             <>
-              <IonListHeader>My Playlists</IonListHeader>
+              <IonListHeader>My Chats</IonListHeader>
               <IonList>
-                {/* {MyPlaylists.map((playlist) => (
-                  <PlaylistItem playlist={playlist} />
-                ))} */}
-              </IonList>
-              <IonListHeader>Following Playlists</IonListHeader>
-              <IonList>
-                {/* {FriendPlaylists.map((playlist) => (
-                  <PlaylistItem playlist={playlist} />
-                ))} */}
+                {MyChats.map((chat) => (
+                  <ChatItem chat={chat} />
+                ))}
               </IonList>
             </>
           )}
@@ -213,7 +202,7 @@ function Dashboard() {
           color="medium"
           isOpen={showToast}
           onDidDismiss={() => setShowToast(false)}
-          message="Your Playlist Has Been Created."
+          message="Your Chat Has Been Created."
           duration={3000}
         />
       </IonContent>
