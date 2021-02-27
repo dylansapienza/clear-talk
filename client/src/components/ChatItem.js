@@ -43,6 +43,7 @@ import {
   IonRange,
 } from "@ionic/react";
 import "@ionic/core/css/ionic.bundle.css";
+import ChatMessage from "./ChatMessage";
 
 function ChatItem(props) {
   const [isLoading, setLoading] = useState(true);
@@ -57,10 +58,12 @@ function ChatItem(props) {
   const [nameSearch, setNameSearch] = useState("");
   const [artistSearch, setArtistSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
+  const [showChat, setShowChat] = useState(false);
 
   function openChat() {
     setShowSongs(true);
     console.log(props.chat);
+    setShowChat(true);
     // var user_token;
     // var data;
     //For Security if Coming from discovery page, dont get other users token
@@ -93,6 +96,26 @@ function ChatItem(props) {
 
   return (
     <>
+      <IonModal isOpen={showChat} cssClass="my-custom-class">
+        <IonCard>
+          <IonCardContent>
+            <IonCardTitle>{props.chat.friend}</IonCardTitle>
+            <IonCardSubtitle></IonCardSubtitle>
+          </IonCardContent>
+          <IonContent>
+            <IonList>
+              {props.chat.messages.map((message) => (
+                <ChatMessage message={message}/>
+              ))}
+            </IonList>
+          </IonContent>
+        </IonCard>
+        <IonFab horizontal="end" vertical="bottom">
+          <IonFabButton color="medium" onClick={() => setShowChat(false)}>
+            <IonIcon icon={arrowDown} />
+          </IonFabButton>
+        </IonFab>
+    </IonModal>
       <IonItem
         button
         onClick={() => {
@@ -101,7 +124,7 @@ function ChatItem(props) {
       >
         <IonLabel>
           <h2>{props.chat.friend}</h2>
-          <h3>>{props.chat.messages[0].text}</h3>
+          <h3>{props.chat.messages[0].text}</h3>
         </IonLabel>
       </IonItem>
     </>
