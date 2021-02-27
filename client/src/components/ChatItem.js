@@ -102,6 +102,14 @@ function ChatItem(props) {
             <IonCardTitle>{props.chat.friend}</IonCardTitle>
             <IonCardSubtitle></IonCardSubtitle>
           </IonCardContent>
+          {isLoading ? (
+          <IonContent>
+            <IonItem>
+              <IonHeader>Getting Tracks...</IonHeader>
+              <IonProgressBar type="indeterminate"></IonProgressBar>
+            </IonItem>
+          </IonContent>
+        ) : (
           <IonContent>
             <IonList>
               {props.chat.messages.map((message) => (
